@@ -11,8 +11,12 @@ public class War {
     Deck deck = new Deck();
     LinkedList<Card> playerHand = new LinkedList<>();
     LinkedList<Card> opponentHan = new LinkedList<>();
-    Card playerCard;
-    Card opponentCard;
+    private Card playerCard;
+    private Card opponentCard;
+
+    public War(){
+        setHands();
+    }
 
     public void setHands() {
         Card card;
@@ -28,7 +32,7 @@ public class War {
     }
 
     public void play(){
-        setHands();
+
         while (playerHand.size() > 0 && opponentHan.size() >0){
 
             playerCard = playerHand.pop();
@@ -65,6 +69,7 @@ public class War {
         playerHand.addLast(opponentCard);
         System.out.println("Player wins the round");
     }
+
     public void opponentWins(){
         opponentHan.addLast(playerCard);
         opponentHan.addLast(opponentCard);
@@ -101,5 +106,13 @@ public class War {
                 System.out.println("You lost the war");
             }
         }
+    }
+
+    public int getPlayerHandCount(){
+        return playerHand.size();
+    }
+
+    public int getOpponentHandCount(){
+        return opponentHan.size();
     }
 }
