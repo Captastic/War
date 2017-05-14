@@ -1,13 +1,12 @@
 package capriotti.anthony;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Anthony on 5/9/2017.
  */
-public class War {
+public class War extends Exception {
+    Scanner scan = new Scanner(System.in);
     Deck deck = new Deck();
     LinkedList<Card> playerHand = new LinkedList<>();
     LinkedList<Card> opponentHan = new LinkedList<>();
@@ -43,13 +42,15 @@ public class War {
 
             if (playerCard.rank.getValue() > opponentCard.rank.getValue()){
                 playerWins();
+                keepPlaying();
             }
             else if (playerCard.rank.getValue() < opponentCard.rank.getValue()){
                 opponentWins();
+                keepPlaying();
             }
             else {
                 System.out.println("War");
-                war();
+                battle();
             }
 
 
@@ -76,7 +77,7 @@ public class War {
         System.out.println("Opponent winds the round");
     }
 
-    public void war(){
+    public void battle(){
         List<Card> playerWar = new ArrayList<>();
         List<Card> opponentWar = new ArrayList<>();
 
@@ -85,7 +86,7 @@ public class War {
                 break;
             }
 
-            System.out.println("War card for player is xx\nWar card for opponent is xx");
+            System.out.println("War card for player is\nWar card for opponent is xx");
 
             playerWar.add(playerHand.pop());
             opponentWar.add(opponentHan.pop());
@@ -114,5 +115,25 @@ public class War {
 
     public int getOpponentHandCount(){
         return opponentHan.size();
+    }
+
+    public void keepPlaying(){
+        try {
+            System.out.println("Continue? Y or N?");
+
+            if (scan.next().equalsIgnoreCase("N")){
+                System.out.println("Thanks for playing");
+                System.exit(0);
+            }else if (scan.next().equalsIgnoreCase("Y")){
+                 play();
+            }else {
+                keepPlaying();
+            }
+
+        } catch (InputMismatchException e){
+            System.out.println("One more time please..");
+            keepPlaying();
+        }
+
     }
 }
