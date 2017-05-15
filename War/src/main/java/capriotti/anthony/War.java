@@ -5,19 +5,21 @@ import java.util.*;
 /**
  * Created by Anthony on 5/9/2017.
  */
-public class War extends Exception {
-    Scanner scan = new Scanner(System.in);
+public class War{
+    Scanner scanner = new Scanner(System.in);
     Deck deck = new Deck();
-    LinkedList<Card> playerHand = new LinkedList<>();
-    LinkedList<Card> opponentHan = new LinkedList<>();
+    protected LinkedList<Card> playerHand = new LinkedList<>();
+    protected LinkedList<Card> opponentHan = new LinkedList<>();
     private Card playerCard;
     private Card opponentCard;
 
     public War(){
+        //hands are set at game start
         setHands();
     }
 
     public void setHands() {
+        //splits 52 card deck into two 26 card hands
         Card card;
         for (int i = 0; i < 52; i++) {
             card = deck.draw();
@@ -37,14 +39,13 @@ public class War extends Exception {
             playerCard = playerHand.pop();
             opponentCard = opponentHan.pop();
 
-            System.out.println("Player shows a" + playerCard.toString());
-            System.out.println("Opponent shows a" + opponentCard.toString());
+            System.out.println("Player shows a " + playerCard.toString());
+            System.out.println("Opponent shows a " + opponentCard.toString());
 
-            if (playerCard.rank.getValue() > opponentCard.rank.getValue()){
+            if (playerCard.rank.getValue() > opponentCard.rank.getValue()) {
                 playerWins();
                 keepPlaying();
-            }
-            else if (playerCard.rank.getValue() < opponentCard.rank.getValue()){
+            } else if (playerCard.rank.getValue() < opponentCard.rank.getValue()){
                 opponentWins();
                 keepPlaying();
             }
@@ -53,15 +54,7 @@ public class War extends Exception {
                 battle();
             }
 
-
-            if (playerHand.size() == 0){
-                System.out.println("You lose");
-                break;
-            }
-            else if (opponentHan.size() == 0){
-                System.out.println("you win");
-                break;
-            }
+            handCountCheck();
         }
     }
 
@@ -81,15 +74,14 @@ public class War extends Exception {
         List<Card> playerWar = new ArrayList<>();
         List<Card> opponentWar = new ArrayList<>();
 
+        //checks hand-size for card amount if war is possible
         for (int i = 0; i < 3; i++){
+            playerWar.add(playerHand.pop());
+            opponentWar.add(opponentHan.pop());
+
             if (playerHand.size() == 0 || opponentHan.size() == 0){
                 break;
             }
-
-            System.out.println("War card for player is\nWar card for opponent is xx");
-
-            playerWar.add(playerHand.pop());
-            opponentWar.add(opponentHan.pop());
         }
 
         if (playerWar.size() == 3 && opponentWar.size() == 3){
@@ -117,23 +109,38 @@ public class War extends Exception {
         return opponentHan.size();
     }
 
+    //simple UI interaction to add a break after every turn will continue to work on and add to indiviual class
     public void keepPlaying(){
-        try {
-            System.out.println("Continue? Y or N?");
+        System.out.println("Keep playing? Y or N?");
 
-            if (scan.next().equalsIgnoreCase("N")){
-                System.out.println("Thanks for playing");
-                System.exit(0);
-            }else if (scan.next().equalsIgnoreCase("Y")){
-                 play();
-            }else {
-                keepPlaying();
-            }
-
-        } catch (InputMismatchException e){
-            System.out.println("One more time please..");
+        if (scanner.next().equalsIgnoreCase("Y")) {
+            play();
+        } else if (scanner.next().equalsIgnoreCase("N")){
+            System.out.println("Thanks for playing...");
+            System.exit(0);
+        } else {
+            System.out.println("Once more please...");
             keepPlaying();
         }
-
     }
+
+
+    //created for testing purposes
+    public void clearHands(){
+        playerHand.clear();
+        opponentHan.clear();
+    }
+
+    //checks for hand count size
+    public void handCountCheck(){
+        if (playerHand.size() == 0){
+            System.out.println("You lose!!!!!");
+            System.exit(0);
+        }
+        else if (opponentHan.size() == 0){
+            System.out.println("you win!!!!!!");
+            System.exit(0);
+        }
+    }
+
 }

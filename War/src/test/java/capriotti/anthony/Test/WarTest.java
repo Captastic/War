@@ -54,5 +54,17 @@ public class WarTest {
     }
 
     @Test
-    public void warTest(){}
+    //testing if hand contains zero games game ends
+    public void zeroCountTest(){
+        war.clearHands();
+        int expected = 0;
+        int actual = war.getPlayerHandCount();
+        Assert.assertEquals("testing hand count size", expected, actual);
+    }
+
+    @Test
+    //need additonal testing for war method
+    public void battleTest(){
+
+    }
 }
